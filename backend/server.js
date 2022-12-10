@@ -34,6 +34,13 @@ app.use(express.static(path.join(__dirname, './frontend/build')))
 app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, './frontend/build/index.html'))
 })
+if (process.env.NODE_ENV == 'production') {
+  const path = require('path')
+  app.get('/', (req, res) => {
+    app.use(express.static(path.join(__dirname, 'client', 'build')))
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
+  })
+}
 
 const PORT = 5000
 app.listen(process.env.PORT || PORT, () => {
